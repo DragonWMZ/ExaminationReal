@@ -3,8 +3,11 @@ using UnityEngine;
 public class PlayerMovement : MonoBehaviour
 {
     private float horizontalInput;
-    private float moveSpeed = 5f;
+    [SerializeField] private float moveSpeed = 5f;
     private bool isFacingRight = false;
+
+   [SerializeField] private float jumpPower = 4f;
+    private bool isJumping = false;
 
     private Rigidbody2D rb;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -19,6 +22,12 @@ public class PlayerMovement : MonoBehaviour
         horizontalInput = Input.GetAxis("Horizontal");
 
         FlipSprite();
+
+        if (Input.GetButtonDown("Jump") && !isJumping)
+        {
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpPower);
+            isJumping = true;
+        }
     }
     private void FixedUpdate()
     {
@@ -34,5 +43,10 @@ public class PlayerMovement : MonoBehaviour
             ls.x *= -1f;
             transform.localScale = ls;
         }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        isJumping = false;
     }
 }
