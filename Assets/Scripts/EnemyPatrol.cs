@@ -1,4 +1,5 @@
 using UnityEngine;
+//using SceneManager;
 
 public class EnemyPatrol : MonoBehaviour
 {
@@ -24,11 +25,27 @@ public class EnemyPatrol : MonoBehaviour
         Vector2 point = currentPoint.position - transform.position;
         if (currentPoint == pointB.transform)
         {
-            rb.linearVelocity = new Vector2(speed, 0);
+            rb.linearVelocity = new Vector2(-speed, 0);
         }
         else
         {
             rb.linearVelocity = new Vector2(-speed, 0);
         }
+
+       
+        if (Vector2.Distance(transform.position, currentPoint.position) < 0.5f && currentPoint == pointA.transform)
+        {
+            currentPoint = pointB.transform;
+        }
+
+        //[SerializeField] string nextSceneName;
+
+       // void OnCollisionEnter2D(Collision2D collision)
+       // {
+         //   if (collision.gameObject.CompareTag("Player"))
+           // {
+           //     SceneManager.LoadScene(nextSceneName);
+           // }
     }
+    
 }
